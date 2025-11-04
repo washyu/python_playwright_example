@@ -1,6 +1,6 @@
 # Python Playwright Sauce Demo Tests
 
-![Playwright Tests](https://github.com/washyu/python_playwight_example/actions/workflows/playwright-tests.yml/badge.svg)
+![Playwright Tests](https://github.com/washyu/python_playwright_example/actions/workflows/playwright-tests.yml/badge.svg)
 
 End-to-end testing for [Sauce Demo](https://www.saucedemo.com) using Playwright and Python.
 
