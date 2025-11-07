@@ -16,3 +16,4 @@ wheels/
 playwright-report/
 test-results/
 playwright/.auth/
+screenshots/

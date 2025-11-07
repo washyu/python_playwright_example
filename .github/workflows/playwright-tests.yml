@@ -61,6 +61,24 @@ jobs:
         retention-days: 30
         if-no-files-found: ignore
 
+    - name: Upload failure screenshots
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: failure-screenshots
+        path: test-results/screenshots/
+        retention-days: 30
+        if-no-files-found: ignore
+
+    - name: Upload manual test screenshots
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-screenshots
+        path: screenshots/
+        retention-days: 30
+        if-no-files-found: ignore
+
     - name: Publish Test Results
       if: always()
       uses: mikepenz/action-junit-report@v4
@@ -69,3 +87,4 @@ jobs:
         detailed_summary: true
         include_passed: true
         check_name: 'Playwright Test Results'
+        fail_on_failure: true

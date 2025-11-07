@@ -31,19 +31,14 @@
 - ✅ Locked out user
 
 ### To Implement
-- [ ] Invalid username
-- [ ] Invalid password
-- [ ] Empty username
-- [ ] Empty password
-- [ ] Empty username and password
-- [ ] Case sensitivity verification
-- [ ] SQL injection attempt (security test)
-- [ ] XSS attempt in login fields (security test)
-- [ ] Different user types:
-  - [ ] problem_user (images don't load)
-  - [ ] performance_glitch_user (slow operations)
-  - [ ] error_user
-  - [ ] visual_user
+- ✅ Invalid username
+- ✅ Invalid password
+- ✅ Empty username
+- ✅ Empty password
+- ✅ Empty username and password
+- ✅ Case sensitivity verification
+- ✅ SQL injection attempt (security test)
+- ✅ XSS attempt in login fields (security test)
 
 ---
 
