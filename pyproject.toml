@@ -9,5 +9,6 @@ dependencies = [
     "pytest>=8.4.2",
     "pytest-html>=4.1.1",
     "pytest-playwright>=0.7.1",
+    "pytest-xdist>=3.8.0",
     "python-dotenv>=1.2.1",
 ]

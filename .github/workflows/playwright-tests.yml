@@ -18,6 +18,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      matrix:
+        browser: [chromium, firefox]
+      fail-fast: false
 
     steps:
     - name: Checkout code
@@ -37,10 +41,10 @@ jobs:
       run: uv sync
 
     - name: Install Playwright browsers
-      run: uv run playwright install chromium --with-deps
+      run: uv run playwright install ${{ matrix.browser }} --with-deps
 
     - name: Run Playwright tests
-      run: uv run pytest -v
+      run: uv run pytest -v --browser ${{ matrix.browser }}
       # Tests will run headless by default (no HEADED env var set)
       # To run headed locally, set: export HEADED=true
 
@@ -48,7 +52,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: playwright-report
+        name: playwright-report-${{ matrix.browser }}
         path: playwright-report/
         retention-days: 30
 
@@ -56,7 +60,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: test-results
+        name: test-results-${{ matrix.browser }}
         path: test-results/
         retention-days: 30
         if-no-files-found: ignore
@@ -65,7 +69,7 @@ jobs:
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: failure-screenshots
+        name: failure-screenshots-${{ matrix.browser }}
         path: test-results/screenshots/
         retention-days: 30
         if-no-files-found: ignore
@@ -74,7 +78,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: test-screenshots
+        name: test-screenshots-${{ matrix.browser }}
         path: screenshots/
         retention-days: 30
         if-no-files-found: ignore
@@ -86,5 +90,5 @@ jobs:
         report_paths: 'test-results/junit.xml'
         detailed_summary: true
         include_passed: true
-        check_name: 'Playwright Test Results'
+        check_name: 'Playwright Test Results (${{ matrix.browser }})'
         fail_on_failure: true

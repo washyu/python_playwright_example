@@ -1,0 +1,37 @@
+{
+  "inventory": {
+    "total_products": 6,
+    "expected_product_count": 6,
+    "sort_options": {
+      "name_asc": "az",
+      "name_desc": "za",
+      "price_asc": "lohi",
+      "price_desc": "hilo"
+    }
+  },
+  "checkout": {
+    "tax_rate": 0.08,
+    "payment_info": "SauceCard #31337",
+    "shipping_info": "Free Pony Express Delivery!",
+    "success_header": "Thank you for your order!",
+    "success_message": "Your order has been dispatched, and will arrive just as fast as the pony can get there!"
+  },
+  "errors": {
+    "locked_out": "Epic sadface: Sorry, this user has been locked out.",
+    "invalid_credentials": "Epic sadface: Username and password do not match any user in this service",
+    "missing_username": "Epic sadface: Username is required",
+    "missing_password": "Epic sadface: Password is required",
+    "missing_first_name": "Error: First Name is required",
+    "missing_last_name": "Error: Last Name is required",
+    "missing_postal_code": "Error: Postal Code is required"
+  },
+  "urls": {
+    "base_url": "https://www.saucedemo.com",
+    "login": "https://www.saucedemo.com/",
+    "inventory": "https://www.saucedemo.com/inventory.html",
+    "cart": "https://www.saucedemo.com/cart.html",
+    "checkout_step_one": "https://www.saucedemo.com/checkout-step-one.html",
+    "checkout_step_two": "https://www.saucedemo.com/checkout-step-two.html",
+    "checkout_complete": "https://www.saucedemo.com/checkout-complete.html"
+  }
+}

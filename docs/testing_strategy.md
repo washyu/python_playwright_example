@@ -47,9 +47,9 @@
 **Page Classes:** LoginPage, InventoryPage
 
 ### To Implement
-- [ ] Successful logout from inventory page
-- [ ] Cannot access inventory after logout (session cleared)
-- [ ] Login again after logout
+- ✅ Successful logout from inventory page
+- ✅ Cannot access inventory after logout (session cleared)
+- ✅ Login again after logout
 - [ ] Logout from different pages (cart, checkout)
 
 ---
