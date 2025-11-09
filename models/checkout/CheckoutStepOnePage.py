@@ -1,4 +1,5 @@
 from playwright.sync_api import Page
+
 from models.base import BasePage
 
 
@@ -33,12 +34,14 @@ class CheckoutStepOnePage(BasePage):
     def continue_to_step_two(self):
         """Click continue button to proceed to checkout step 2."""
         from models.checkout import CheckoutStepTwoPage
+
         self.continue_button.click()
         return CheckoutStepTwoPage(self.page)
 
     def cancel_checkout(self):
         """Click cancel button to return to cart."""
         from models.cart import CartPage
+
         self.cancel_button.click()
         return CartPage(self.page)
 
@@ -75,4 +78,5 @@ class CheckoutStepOnePage(BasePage):
             return None
 
         from models.checkout import CheckoutStepTwoPage
+
         return CheckoutStepTwoPage(self.page)

@@ -1,9 +1,9 @@
-import os
-import sys
 import json
+import os
 from pathlib import Path
-from dotenv import load_dotenv
+
 import pytest
+from dotenv import load_dotenv
 from playwright.sync_api import Page
 
 # Load environment variables from .env file if it exists
@@ -84,6 +84,7 @@ def pytest_runtest_makereport(item, call):
 # Custom Fixtures
 # ============================================================================
 
+
 @pytest.fixture(scope="session")
 def test_data():
     """We are loading this from some json file for now but it would be better to pull this data from the backend database."""
@@ -94,25 +95,25 @@ def test_data():
     users_path = Path(__file__).parent / "test_data" / "users.json"
     if users_path.exists():
         with open(users_path) as f:
-            data['users'] = json.load(f)
+            data["users"] = json.load(f)
 
     # Load products data
     products_path = Path(__file__).parent / "test_data" / "products.json"
     if products_path.exists():
         with open(products_path) as f:
-            data['products'] = json.load(f)
+            data["products"] = json.load(f)
 
     # Load checkout data
     checkout_path = Path(__file__).parent / "test_data" / "checkout.json"
     if checkout_path.exists():
         with open(checkout_path) as f:
-            data['checkout'] = json.load(f)
+            data["checkout"] = json.load(f)
 
     # Load expected data
     expected_path = Path(__file__).parent / "test_data" / "expected_data.json"
     if expected_path.exists():
         with open(expected_path) as f:
-            data['expected'] = json.load(f)
+            data["expected"] = json.load(f)
 
     return data
 

@@ -39,6 +39,7 @@ class BasePage:
     def logout(self):
         """Logout from the application."""
         from models.login import LoginPage
+
         self.open_menu()
         self.logout_link.click()
         return LoginPage(self.page)
@@ -46,6 +47,7 @@ class BasePage:
     def click_all_items(self):
         """Navigate to inventory page via menu."""
         from models.inventory import InventoryPage
+
         self.open_menu()
         self.all_items_link.click()
         return InventoryPage(self.page)
@@ -70,6 +72,7 @@ class BasePage:
             path: Directory to save screenshot (default: 'screenshots')
         """
         import os
+
         os.makedirs(path, exist_ok=True)
         screenshot_path = os.path.join(path, f"{name}.png")
         self.page.screenshot(path=screenshot_path, full_page=True)

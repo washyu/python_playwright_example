@@ -1,4 +1,5 @@
 from playwright.sync_api import Page
+
 from models.base import BasePage
 
 
@@ -48,7 +49,7 @@ class CheckoutStepTwoPage(BasePage):
             "name": item.locator(".inventory_item_name").inner_text(),
             "description": item.locator(".inventory_item_desc").inner_text(),
             "price": item.locator(".inventory_item_price").inner_text(),
-            "quantity": item.locator(".cart_quantity").inner_text()
+            "quantity": item.locator(".cart_quantity").inner_text(),
         }
 
     def get_subtotal(self):
@@ -93,12 +94,14 @@ class CheckoutStepTwoPage(BasePage):
     def finish_order(self):
         """Click finish button to complete the order."""
         from models.checkout import CheckoutCompletePage
+
         self.finish_button.click()
         return CheckoutCompletePage(self.page)
 
     def cancel_order(self):
         """Click cancel button to return to inventory."""
         from models.inventory import InventoryPage
+
         self.cancel_button.click()
         return InventoryPage(self.page)
 

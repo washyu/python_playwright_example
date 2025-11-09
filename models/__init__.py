@@ -1,8 +1,8 @@
-from .login import LoginPage
-from .inventory import InventoryPage
 from .base import BasePage
 from .cart import CartPage
-from .checkout import CheckoutStepOnePage, CheckoutStepTwoPage, CheckoutCompletePage
+from .checkout import CheckoutCompletePage, CheckoutStepOnePage, CheckoutStepTwoPage
+from .inventory import InventoryPage
+from .login import LoginPage
 
 __all__ = [
     "LoginPage",
@@ -11,5 +11,5 @@ __all__ = [
     "CartPage",
     "CheckoutStepOnePage",
     "CheckoutStepTwoPage",
-    "CheckoutCompletePage"
+    "CheckoutCompletePage",
 ]

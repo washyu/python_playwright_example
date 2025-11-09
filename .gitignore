@@ -12,6 +12,9 @@ wheels/
 # Environment variables
 .env
 
+# Track .env.pre-commit for pre-commit hooks (negation of .env pattern)
+!.env.pre-commit
+
 # Test reports
 playwright-report/
 test-results/

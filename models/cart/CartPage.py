@@ -1,4 +1,5 @@
 from playwright.sync_api import Page
+
 from models.base import BasePage
 
 
@@ -47,7 +48,7 @@ class CartPage(BasePage):
         return {
             "name": item.locator(".inventory_item_name").inner_text(),
             "description": item.locator(".inventory_item_desc").inner_text(),
-            "price": item.locator(".inventory_item_price").inner_text()
+            "price": item.locator(".inventory_item_price").inner_text(),
         }
 
     def remove_item_by_name(self, product_name: str):
@@ -77,12 +78,14 @@ class CartPage(BasePage):
     def continue_shopping(self):
         """Click continue shopping button to return to inventory."""
         from models.inventory import InventoryPage
+
         self.continue_shopping_button.click()
         return InventoryPage(self.page)
 
     def proceed_to_checkout(self):
         """Click checkout button to proceed to checkout step 1."""
         from models.checkout import CheckoutStepOnePage
+
         self.checkout_button.click()
         return CheckoutStepOnePage(self.page)
 

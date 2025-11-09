@@ -1,4 +1,5 @@
 from playwright.sync_api import Page
+
 from models.base import BasePage
 
 
@@ -46,10 +47,7 @@ class CheckoutCompletePage(BasePage):
         Returns:
             bool: True if success indicators are present
         """
-        return (
-            self.is_loaded() and
-            "thank you" in self.get_header_text().lower()
-        )
+        return self.is_loaded() and "thank you" in self.get_header_text().lower()
 
     def back_to_home(self):
         """Click back home button to return to inventory page.
@@ -58,6 +56,7 @@ class CheckoutCompletePage(BasePage):
             InventoryPage: The inventory page object
         """
         from models.inventory import InventoryPage
+
         self.back_home_button.click()
         return InventoryPage(self.page)
 
@@ -72,5 +71,5 @@ class CheckoutCompletePage(BasePage):
             "header_visible": self.complete_header.is_visible(),
             "message_visible": self.complete_text.is_visible(),
             "image_visible": self.is_pony_express_visible(),
-            "button_visible": self.back_home_button.is_visible()
+            "button_visible": self.back_home_button.is_visible(),
         }

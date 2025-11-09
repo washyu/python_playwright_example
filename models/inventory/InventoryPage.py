@@ -1,4 +1,5 @@
 from playwright.sync_api import Page
+
 from models.base import BasePage
 
 
@@ -48,6 +49,7 @@ class InventoryPage(BasePage):
     def click_cart(self):
         """Click the shopping cart icon."""
         from models.cart import CartPage
+
         self.shopping_cart.click()
         return CartPage(self.page)
 
@@ -71,6 +73,7 @@ class InventoryPage(BasePage):
     def click_product_name(self, product_name: str):
         """Click on a product name to go to product details."""
         from models.product_details import ProductDetailsPage
+
         product = self.page.locator(".inventory_item_name", has_text=product_name)
         product.click()
         return ProductDetailsPage(self.page)
@@ -78,6 +81,7 @@ class InventoryPage(BasePage):
     def click_product_image(self, index: int = 0):
         """Click on a product image by index."""
         from models.product_details import ProductDetailsPage
+
         images = self.page.locator(".inventory_item_img")
         images.nth(index).click()
         return ProductDetailsPage(self.page)
@@ -90,5 +94,5 @@ class InventoryPage(BasePage):
         return {
             "name": item.locator(".inventory_item_name").inner_text(),
             "description": item.locator(".inventory_item_desc").inner_text(),
-            "price": item.locator(".inventory_item_price").inner_text()
+            "price": item.locator(".inventory_item_price").inner_text(),
         }
