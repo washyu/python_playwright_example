@@ -50,7 +50,7 @@
 - ✅ Successful logout from inventory page
 - ✅ Cannot access inventory after logout (session cleared)
 - ✅ Login again after logout
-- [ ] Logout from different pages (cart, checkout)
+- ✅ Logout from different pages (cart, checkout)
 
 ---
 

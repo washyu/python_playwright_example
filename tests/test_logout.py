@@ -148,3 +148,106 @@ def test_menu_links_accessible_when_open(page: Page, test_users):
     assert (
         inventory_page.reset_app_link.count() > 0
     ), "Reset App link should exist in menu"
+
+
+def test_logout_from_cart_page(page: Page, test_users):
+    """Test logout from the shopping cart page."""
+    user = test_users["standard_user"]
+    login_page = LoginPage(page)
+    login_page.navigate()
+
+    # Login and add a product to cart
+    inventory_page = login_page.login(user["username"], user["password"])
+    expect(page).to_have_url(re.compile(".*inventory.html"))
+
+    # Add product to cart
+    inventory_page.add_to_cart_by_name("Sauce Labs Backpack")
+
+    # Navigate to cart
+    cart_page = inventory_page.click_cart()
+    expect(page).to_have_url(re.compile(".*cart.html"))
+
+    # Verify we're on cart page with item
+    assert cart_page.is_loaded(), "Cart page should be loaded"
+    assert cart_page.get_item_count() > 0, "Cart should have items"
+
+    # Logout from cart page
+    login_page = cart_page.logout()
+
+    # Verify we're back on the login page
+    expect(page).to_have_url(re.compile(".*saucedemo.com/?$"))
+    assert (
+        login_page.username_input.is_visible()
+    ), "Should be on login page after logout from cart"
+
+
+def test_logout_from_checkout_step_one(page: Page, test_users):
+    """Test logout from checkout step one (customer information) page."""
+    user = test_users["standard_user"]
+    login_page = LoginPage(page)
+    login_page.navigate()
+
+    # Login, add product to cart, and navigate to checkout
+    inventory_page = login_page.login(user["username"], user["password"])
+    expect(page).to_have_url(re.compile(".*inventory.html"))
+
+    # Add product to cart
+    inventory_page.add_to_cart_by_name("Sauce Labs Backpack")
+
+    # Navigate to cart and then checkout
+    cart_page = inventory_page.click_cart()
+    expect(page).to_have_url(re.compile(".*cart.html"))
+
+    checkout_step_one = cart_page.proceed_to_checkout()
+    expect(page).to_have_url(re.compile(".*checkout-step-one.html"))
+
+    # Verify we're on checkout step one page
+    assert checkout_step_one.is_loaded(), "Checkout step one page should be loaded"
+
+    # Logout from checkout step one page
+    login_page = checkout_step_one.logout()
+
+    # Verify we're back on the login page
+    expect(page).to_have_url(re.compile(".*saucedemo.com/?$"))
+    assert (
+        login_page.username_input.is_visible()
+    ), "Should be on login page after logout from checkout step one"
+
+
+def test_logout_from_checkout_step_two(page: Page, test_users):
+    """Test logout from checkout step two (order overview) page."""
+    user = test_users["standard_user"]
+    login_page = LoginPage(page)
+    login_page.navigate()
+
+    # Login, add product to cart, and navigate through checkout
+    inventory_page = login_page.login(user["username"], user["password"])
+    expect(page).to_have_url(re.compile(".*inventory.html"))
+
+    # Add product to cart
+    inventory_page.add_to_cart_by_name("Sauce Labs Backpack")
+
+    # Navigate to cart, then checkout step one
+    cart_page = inventory_page.click_cart()
+    expect(page).to_have_url(re.compile(".*cart.html"))
+
+    checkout_step_one = cart_page.proceed_to_checkout()
+    expect(page).to_have_url(re.compile(".*checkout-step-one.html"))
+
+    # Fill customer info and proceed to step two
+    checkout_step_two = checkout_step_one.submit_form(
+        first_name="John", last_name="Doe", postal_code="12345"
+    )
+    expect(page).to_have_url(re.compile(".*checkout-step-two.html"))
+
+    # Verify we're on checkout step two page
+    assert checkout_step_two.is_loaded(), "Checkout step two page should be loaded"
+
+    # Logout from checkout step two page
+    login_page = checkout_step_two.logout()
+
+    # Verify we're back on the login page
+    expect(page).to_have_url(re.compile(".*saucedemo.com/?$"))
+    assert (
+        login_page.username_input.is_visible()
+    ), "Should be on login page after logout from checkout step two"
