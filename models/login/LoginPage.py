@@ -1,17 +1,18 @@
 from models.inventory import InventoryPage
 
+from models.base import BasePage
 
-class LoginPage:
+class LoginPage(BasePage):
+
+    PAGE_URL = "https://www.saucedemo.com/"
 
     def __init__(self, page):
+        super().__init__(page)
         self.page = page
         self.username_input = page.locator("#user-name")
         self.password_input = page.locator("#password")
         self.login_button = page.locator("#login-button")
         self.error_message = page.locator("[data-test='error']")
-
-    def navigate(self):
-        self.page.goto("https://www.saucedemo.com/")
 
     def has_error(self):
         """Check if an error message is displayed."""

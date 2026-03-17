@@ -6,6 +6,8 @@ from models.base import BasePage
 class CartPage(BasePage):
     """Page Object Model for the Shopping Cart page."""
 
+    PAGE_URL = "https://www.saucedemo.com/cart.html"
+
     def __init__(self, page: Page):
         super().__init__(page)
         self.cart_list = page.locator(".cart_list")

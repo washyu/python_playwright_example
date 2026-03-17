@@ -28,5 +28,9 @@
     "first_name": "José",
     "last_name": "O'Brien",
     "postal_code": "K1A 0B1"
-  }
+  },
+  "expected_cart_items": [
+    "Sauce Labs Backpack",
+    "Sauce Labs Bike Light"
+  ]
 }

@@ -4,6 +4,8 @@ from playwright.sync_api import Page
 class BasePage:
     """Base page class containing common elements like the menu."""
 
+    PAGE_URL = None
+
     def __init__(self, page: Page):
         self.page = page
         # Menu elements
@@ -15,6 +17,13 @@ class BasePage:
         self.about_link = page.locator("#about_sidebar_link")
         self.reset_app_link = page.locator("#reset_sidebar_link")
 
+    def navigate(self):
+        """Navigate to the base URL of the page."""
+        if self.PAGE_URL is None:
+            raise NotImplementedError(f"PAGE_URL not defined for {self.__class__.__name__}")
+        self.page.goto(self.PAGE_URL)
+        return self
+    
     def open_menu(self):
         """Open the hamburger menu."""
         self.menu_button.click()

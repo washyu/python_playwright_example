@@ -2,7 +2,7 @@
 
 ![Playwright Tests](https://github.com/washyu/python_playwright_example/actions/workflows/playwright-tests.yml/badge.svg)
 
-End-to-end testing for [Sauce Demo](https://www.saucedemo.com) using Playwright and Python.
+End-to-end testing for [Sauce Demo](https://www.saucedemo.com) using Playwright and Python, with Page Object Model architecture.
 
 ## Prerequisites
 
@@ -23,12 +23,20 @@ cp .env.example .env
 # Edit .env to set HEADED=true for visible browser mode
 ```
 
+### Pre-commit Hooks
+
+This project uses pre-commit hooks for code formatting (black, isort, ruff):
+
+```bash
+uv run pre-commit install
+```
+
 ## Running Tests
 
 ### Basic Test Execution
 
 ```bash
-# Run all tests (headless mode)
+# Run all tests (headless, parallel)
 uv run pytest
 
 # Run specific test file
@@ -41,46 +49,55 @@ uv run pytest -v
 uv run pytest -k test_login
 ```
 
+### Test Markers
+
+```bash
+# Run by category
+uv run pytest -m smoke
+uv run pytest -m "login or cart"
+uv run pytest -m checkout
+uv run pytest -m regression
+```
+
+Available markers: `smoke`, `regression`, `critical`, `slow`, `login`, `cart`, `checkout`, `ui`
+
 ### Headed vs Headless Mode
 
-By default, tests run in **headless** mode. Control this with environment variables:
+By default, tests run in **headless** mode with parallel execution (`-n auto`).
 
 **Option 1: Using .env file (recommended for local development)**
 ```bash
-# Create .env file
 cp .env.example .env
-
 # Edit .env and set:
 # HEADED=true
 # SLOWMO=500
 
-# Run tests (reads from .env)
 uv run pytest
 ```
 
 **Option 2: Command line environment variables**
 ```bash
-# Run tests in headed mode (visible browser)
 HEADED=true uv run pytest
-
-# Run in headed mode with custom slowmo
 HEADED=true SLOWMO=1000 uv run pytest
-
-# Run headless (default)
-uv run pytest
 ```
 
 ### Different Browsers
 
 ```bash
-# Firefox
+uv run pytest --browser chromium   # default
 uv run pytest --browser firefox
-
-# WebKit (Safari)
 uv run pytest --browser webkit
 
 # Multiple browsers
 uv run pytest --browser chromium --browser firefox
+```
+
+### Parallel Execution
+
+Tests run in parallel by default (`-n auto`). To run sequentially:
+
+```bash
+uv run pytest -n 0
 ```
 
 ### Debugging
@@ -89,32 +106,72 @@ uv run pytest --browser chromium --browser firefox
 # Enable tracing
 uv run pytest --tracing on
 
-# Run in headed mode with slow motion
-HEADED=true SLOWMO=1000 uv run pytest
+# Run headed with slow motion
+HEADED=true SLOWMO=1000 uv run pytest -n 0
 ```
 
 ## Test Reports
 
-HTML reports are automatically generated after each test run:
+Two report formats are generated after each test run:
 
-- **Location**: `playwright-report/index.html`
-- **View**: Open the file in your browser
+- **HTML report**: `playwright-report/index.html`
+- **JUnit XML**: `test-results/junit.xml`
+- **Failure screenshots**: `test-results/screenshots/`
 
 ```bash
-# Open report (Linux)
+# Open HTML report (Linux)
 xdg-open playwright-report/index.html
 
-# Open report (macOS)
+# Open HTML report (macOS)
 open playwright-report/index.html
-
-# Open report (Windows)
-start playwright-report/index.html
 ```
+
+## Project Structure
+
+```
+.
+├── tests/
+│   ├── test_login.py         # Login and authentication tests
+│   ├── test_logout.py        # Logout tests
+│   ├── test_e2e.py           # End-to-end workflow tests
+│   ├── test_checkout.py      # Checkout flow tests
+│   └── api/
+│       └── test_testful_booker.py  # Restful Booker API tests
+├── models/                   # Page Object Models
+│   ├── base/BasePage.py      # Base class with shared helpers
+│   ├── login/LoginPage.py
+│   ├── cart/CartPage.py
+│   ├── inventory/InventoryPage.py
+│   └── checkout/
+│       ├── CheckoutStepOnePage.py
+│       ├── CheckoutStepTwoPage.py
+│       └── CheckoutCompletePage.py
+├── test_data/                # JSON fixtures (users, products, checkout)
+├── conftest.py               # Fixtures and pytest hooks
+├── pytest.ini                # Pytest settings and markers
+├── .env.example              # Environment variable template
+└── pyproject.toml            # Project dependencies
+```
+
+## Fixtures
+
+| Fixture | Scope | Description |
+|---------|-------|-------------|
+| `authenticated_page` | function | Page already logged in as `standard_user` |
+| `cart_with_items` | function | Authenticated page with Backpack + Bike Light in cart |
+| `test_data` | session | Loaded JSON test data (users, products, checkout) |
+
+## Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `HEADED` | `false` | Run tests in headed mode (visible browser) |
+| `SLOWMO` | `0` | Slow down operations by milliseconds |
 
 ## GitHub Actions
 
 Tests run automatically on:
-- Push to `master`/`main` branch
+- Push to `main`/`master`
 - Pull requests
 - Manual workflow dispatch
 
@@ -122,30 +179,8 @@ Tests run automatically on:
 
 ## Test Application
 
-- **URL**: https://www.saucedemo.com
-- **Username**: `standard_user`
-- **Password**: `secret_sauce`
-
-## Project Structure
-
-```
-.
-├── tests/              # Test files
-│   └── test_login.py   # Login and authentication tests
-├── models/             # Page object models
-├── conftest.py         # Pytest configuration and .env loader
-├── pytest.ini          # Pytest settings
-├── .env.example        # Environment variable template
-├── .env                # Local environment config (not in git)
-└── pyproject.toml      # Project dependencies
-```
-
-## Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `HEADED` | `false` | Run tests in headed mode (visible browser) |
-| `SLOWMO` | `0` (headless) / `500` (headed) | Slow down operations by milliseconds |
+- **Sauce Demo URL**: https://www.saucedemo.com — `standard_user` / `secret_sauce`
+- **Restful Booker API**: https://restful-booker.herokuapp.com — public hotel booking API used for API test examples
 
 ## License
 
